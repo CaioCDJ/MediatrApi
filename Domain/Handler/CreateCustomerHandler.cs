@@ -1,15 +1,14 @@
 using CqrsApi.Domain.Commands.Responses;
 using CqrsApi.Domain.Commands.Requests;
+using MediatR;
 
 namespace CqrsApi.Domain.Commands.Handlers;
 
-public class CreateCustomerHandler : ICreateCustomerHandler
+public class CreateCustomerHandler : IRequestHandler<CreateCustomerRequest, CreateCustomerResponse> 
 {
-
-  public CreateCustomerResponse Handle(CreateCustomerRequest request ){
+  public async Task<CreateCustomerResponse> Handle(CreateCustomerRequest request, CancellationToken cancellationToken ){
 
     return new CreateCustomerResponse{
-      Id = Guid.NewGuid(),
       name = "someone",
       email = "alguem@gmail.com",
       date = DateTime.Now

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using CqrsApi.Domain.Commands.Requests;
 using CqrsApi.Domain.Commands.Handlers;
 using CqrsApi.Domain.Commands.Responses;
+using MediatR;
 
 namespace CqrsApi.Controllers;
 
@@ -10,10 +11,12 @@ namespace CqrsApi.Controllers;
 public class CustomerController : ControllerBase
 {
   [HttpPost]
-  public CreateCustomerResponse Create(
-    [FromServices]ICreateCustomerHandler handler,
+  public async Task<IActionResult> Create(
+    [FromServices]IMediator mediator,
     [FromBody]CreateCustomerRequest command)
-  {
-    return handler.Handle(command);
+  { 
+    var e =  mediator.Send(command);
+
+    return Ok(e);
   }
 }
